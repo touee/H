@@ -1,11 +1,11 @@
 protocol H5Node: Renderable {}
 
-protocol H5Element: Renderable {
+protocol H5Element: H5Node {
     associatedtype Attribute: H5ElementAttribute
     static var name: String { get }
     var attributes: [Attribute] { get set }
-    var body: [H5InnerNode]? { get set }
-    init(attributes: [Attribute], body: [H5InnerNode]?)
+    var body: [H5Node]? { get set }
+    init(attributes: [Attribute], body: [H5Node]?)
 }
 protocol H5ElementAttribute {
     var key: String { get set }
@@ -13,14 +13,14 @@ protocol H5ElementAttribute {
     init(key: String, value: String?)
 }
 extension H5Element {
-    init(_ attributes: [Self.Attribute], @BodyBuilder bodyBuilder: () -> [H5InnerNode]) {
+    init(_ attributes: [Self.Attribute], @BodyBuilder bodyBuilder: () -> [H5Node]) {
         self.init(attributes: attributes, body: bodyBuilder())
     }
     init(_ attributes: [Self.Attribute]) {
         self.init(attributes: attributes, body: nil)
     }
     @inlinable
-    init(_ attributes: Self.Attribute..., @BodyBuilder bodyBuilder: () -> [H5InnerNode]) {
+    init(_ attributes: Self.Attribute..., @BodyBuilder bodyBuilder: () -> [H5Node]) {
         self.init(attributes, bodyBuilder: bodyBuilder)
     }
     @inlinable
@@ -48,21 +48,19 @@ extension H5Element {
 struct H5Document<T: H5RootElement> {
     var root: T
 }
-protocol H5RootElement: H5Element {}
 extension H5Document: Renderable {
     func render() -> String {
         "<!DOCTYPE html>" + self.root.render()
     }
 }
+protocol H5RootElement: H5Element {}
 
-protocol H5InnerNode: H5Node {}
-protocol H5InnerElement: H5Element, H5InnerNode {}
-extension String: H5InnerNode {
+extension String: H5Node {
     func render() -> String {
         return sanitizeText(self)
     }
 }
-struct Comment: H5InnerNode {
+struct Comment: H5Node {
     var content: String
     init(_ content: String) {
         self.content = content
@@ -73,4 +71,3 @@ struct Comment: H5InnerNode {
 }
 
 protocol H5RootElementAttribute: H5ElementAttribute {}
-protocol H5InnerElementAttribute: H5ElementAttribute {}

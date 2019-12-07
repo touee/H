@@ -2,7 +2,7 @@ struct HTML5: H5RootElement {
     static var name: String = "html"
     struct Attribute: H5RootElementAttribute { var key: String; var value: String? }
     var attributes: [Self.Attribute]
-    var body: [H5InnerNode]?
+    var body: [H5Node]?
 }
 extension HTML5.Attribute {
     static func lang(_ value: String) -> Self {

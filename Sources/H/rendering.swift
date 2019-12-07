@@ -2,7 +2,7 @@ protocol Renderable {
     func render() -> String
 }
 
-extension Array where Element == H5InnerNode {
+extension Array where Element == H5Node {
     func render() -> String {
         self.map {
             switch $0 { // TODO: raw

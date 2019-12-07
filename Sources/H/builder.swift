@@ -1,9 +1,9 @@
 @_functionBuilder
 struct BodyBuilder {
-    func buildExpression(_ node: H5InnerNode) -> [H5InnerNode] {
+    func buildExpression(_ node: H5Node) -> [H5Node] {
         return [node]
     }
-    func buildBlock(_ nodes: H5InnerNode...) -> [H5InnerNode] {
+    func buildBlock(_ nodes: H5Node...) -> [H5Node] {
         return nodes
     }
 }
