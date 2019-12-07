@@ -12,15 +12,22 @@ protocol H5ElementAttribute {
     var value: String? { get set }
     init(key: String, value: String?)
 }
+extension H5ElementAttribute {
+    // Instead of use .init directly, we have to use this function to create custom attribute.
+    // Otherwise, the compiler would complain: `Type of expression is ambiguous without more context`
+    static func attr$(key: String, value: String) -> Self {
+        return Self.init(key: key, value: value)
+    }
+}
 extension H5Element {
-    init(_ attributes: [Self.Attribute], @BodyBuilder bodyBuilder: () -> [H5Node]) {
-        self.init(attributes: attributes, body: bodyBuilder())
+    init(_ attributes: [Self.Attribute], @BodyBuilder bodyBuilder: () -> H5Node) {
+        self.init(attributes: attributes, body: [bodyBuilder()])
     }
     init(_ attributes: [Self.Attribute]) {
         self.init(attributes: attributes, body: nil)
     }
     @inlinable
-    init(_ attributes: Self.Attribute..., @BodyBuilder bodyBuilder: () -> [H5Node]) {
+    init(_ attributes: Self.Attribute..., @BodyBuilder bodyBuilder: () -> H5Node) {
         self.init(attributes, bodyBuilder: bodyBuilder)
     }
     @inlinable
