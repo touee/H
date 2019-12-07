@@ -8,7 +8,7 @@ final class HTests: XCTestCase {
             Head {
                 Title { "Demo" }
                 JS$("static/js/demo.js")
-                Link(.rel("stylesheet"), .href("static/css/demo.css"), .attr$(key: "foo", value: "bar"))
+                Link(.rel("stylesheet"), .href("static/css/demo.css"), .attr$(key: "foo", value: "bar"), .emptyAttr$(key: "test"))
             }
             Body {
                 Article {
@@ -21,7 +21,7 @@ final class HTests: XCTestCase {
             }
         }
         
-        XCTAssertEqual(html.document.render(), #"<!DOCTYPE html><html lang="en"><head><title>Demo<title/><script src="static/js/demo.js" type="text/javascript"/><link rel="stylesheet" href="static/css/demo.css" foo="bar"/><head/><body><article><h1>hello<h1/><p>hello<span style="color: blue">world<span/><p/><article/><body/><html/>"#)
+        XCTAssertEqual(html.document.render(), #"<!DOCTYPE html><html lang="en"><head><title>Demo<title/><script src="static/js/demo.js" type="text/javascript"/><link rel="stylesheet" href="static/css/demo.css" foo="bar" test/><head/><body><article><h1>hello<h1/><p>hello<span style="color: blue">world<span/><p/><article/><body/><html/>"#)
     }
 
     static var allTests = [

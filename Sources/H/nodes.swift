@@ -18,6 +18,9 @@ extension H5ElementAttribute {
     static func attr$(key: String, value: String) -> Self {
         return Self.init(key: key, value: value)
     }
+    static func emptyAttr$(key: String) -> Self {
+        return Self.init(key: key, value: nil)
+    }
 }
 extension H5Element {
     init(_ attributes: [Self.Attribute], @BodyBuilder bodyBuilder: () -> H5Node) {
