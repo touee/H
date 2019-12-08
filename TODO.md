@@ -8,3 +8,4 @@
 * [ ] implementing text escape functions
 * [ ] waiting for `buildExpression` being implemented
 * [ ] unless use an array, code complete would gone since the second attribute… investigate it?
+* [ ] conforming [content models](https://html.spec.whatwg.org/#content-models)
