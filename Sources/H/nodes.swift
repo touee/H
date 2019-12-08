@@ -48,7 +48,7 @@ extension H5Element {
             openTagContent = Self.name
         }
         if let body = self.body {
-            return "<" + openTagContent + ">" + body.render() + "<" + Self.name + "/>"
+            return "<" + openTagContent + ">" + body.render() + "</" + Self.name + ">"
         } else {
             return "<" + openTagContent + "/>"
         }
