@@ -39,44 +39,16 @@ extension H5Element {
     }
 }
 
-extension H5Element {
-    func render() -> String {
-        let openTagContent: String
-        if self.attributes.count > 0 {
-            openTagContent = Self.name + " " + self.attributes.render()
-        } else {
-            openTagContent = Self.name
-        }
-        if let body = self.body {
-            return "<" + openTagContent + ">" + body.render() + "</" + Self.name + ">"
-        } else {
-            return "<" + openTagContent + "/>"
-        }
-    }
-}
-
 struct H5Document<T: H5RootElement> {
     var root: T
 }
-extension H5Document: Renderable {
-    func render() -> String {
-        "<!DOCTYPE html>" + self.root.render()
-    }
-}
 protocol H5RootElement: H5Element {}
 
-extension String: H5Node {
-    func render() -> String {
-        return sanitizeText(self)
-    }
-}
+extension String: H5Node {}
 struct Comment: H5Node {
     var content: String
     init(_ content: String) {
         self.content = content
-    }
-    func render() -> String {
-        return escapeComment(self.content)
     }
 }
 

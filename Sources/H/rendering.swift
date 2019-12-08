@@ -2,6 +2,40 @@ protocol Renderable {
     func render() -> String
 }
 
+extension H5Document: Renderable {
+    func render() -> String {
+        "<!DOCTYPE html>" + self.root.render()
+    }
+}
+
+extension H5Element {
+    func render() -> String {
+        let openTagContent: String
+        if self.attributes.count > 0 {
+            openTagContent = Self.name + " " + self.attributes.render()
+        } else {
+            openTagContent = Self.name
+        }
+        if let body = self.body {
+            return "<" + openTagContent + ">" + body.render() + "</" + Self.name + ">"
+        } else {
+            return "<" + openTagContent + "/>"
+        }
+    }
+}
+
+extension String: Renderable {
+    func render() -> String {
+        return sanitizeText(self)
+    }
+}
+
+extension Comment: Renderable {
+    func render() -> String {
+        return escapeComment(self.content)
+    }
+}
+
 extension Array where Element == H5Node {
     func render() -> String {
         self.map {
@@ -28,4 +62,14 @@ extension Array where Element: H5ElementAttribute {
             return $0.key
         }.joined(separator: " ")
     }
+}
+
+extension H5NodeList: Renderable {
+    func render() -> String {
+        nodes.render()
+    }
+}
+
+extension EmptyNode: Renderable {
+    func render() -> String { "" }
 }

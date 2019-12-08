@@ -20,13 +20,10 @@ struct BodyBuilder {
     }
 }
 
-struct H5NodeList: H5Node {
+struct H5NodeList {
     var nodes: [H5Node]
-    
-    func render() -> String {
-        nodes.render()
-    }
 }
+extension H5NodeList: H5Node {}
 
 func ForEach<Iter: IteratorProtocol>(_ iter: Iter, @BodyBuilder body: (Iter.Element) -> H5Node) -> H5Node {
     var iter = iter
@@ -45,8 +42,5 @@ func ForEach<Iter: Sequence>(_ seq: Iter, @BodyBuilder body: (Iter.Element) -> H
     return H5NodeList(nodes: list)
 }
 
-struct EmptyNode: H5Node {
-    func render() -> String {
-        ""
-    }
-}
+struct EmptyNode {}
+extension EmptyNode: H5Node {}
