@@ -23,7 +23,7 @@ final class HTests: XCTestCase {
                     }
                     ForEach(0..<5) { i in
                         if i % 2 == 0 {
-                            P { "\(i)" }
+                            P { String(i) }
                         } else {
                             EmptyNode()
                         }
